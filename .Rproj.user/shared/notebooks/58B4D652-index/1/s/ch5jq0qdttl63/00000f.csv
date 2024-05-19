@@ -1,0 +1,5 @@
+"0","#| label: carga-datos"
+"0","#| message: false"
+"0","#| warning: false"
+"0",""
+"0","pacientes <- read_csv(""heart_failure_clinical_records_dataset.csv"")"

@@ -1,0 +1,7 @@
+"0","#| label: tabla-3.1"
+"0",""
+"0","pacientes |>"
+"0","  filter(sex == 1) |>"
+"0","  group_by(diabetes) |>"
+"0","  summarize(promedio_fraccion_eyeccion = mean(ejection_fraction)) |>"
+"0","  kable()"

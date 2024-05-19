@@ -1,0 +1,6 @@
+"0","#| label: tabla-3.2"
+"0",""
+"0","pacientes |>"
+"0","  group_by(DEATH_EVENT) |>"
+"0","  summarize(promedio_creatinina_serica = mean(serum_creatinine)) |>"
+"0","  kable()"

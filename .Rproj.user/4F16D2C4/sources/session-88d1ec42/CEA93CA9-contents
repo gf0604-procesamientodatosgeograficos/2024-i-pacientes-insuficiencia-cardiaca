@@ -1,0 +1,199 @@
+---
+title: "Pacientes con insuficiencia cardíaca"
+format: html
+toc: true
+theme: morph
+lang: es
+---
+
+# Introducción
+Este documento muestra visualizaciones de un conjunto de datos de 299 registros de pacientes que sufrieron [insuficiencia cardíaca](https://es.wikipedia.org/wiki/Insuficiencia_card%C3%ADaca). Para cada paciente, se consideran 13 características clínicas (edad, sexo, si tenía anemia, si tenía diabetes, si fumaba y otras). Estos datos forman parte del artículo [Chicco, D., Jurman, G. Machine learning can predict survival of patients with heart failure from serum creatinine and ejection fraction alone. *BMC Med Inform Decis Mak* **20**, 16 (2020)](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1023-5).
+
+# Carga de paquetes
+
+```{r}
+#| label: carga-paquetes
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(knitr)
+```
+
+# Carga de datos
+
+```{r}
+#| label: carga-datos
+#| message: false
+#| warning: false
+
+pacientes <- read_csv("heart_failure_clinical_records_dataset.csv")
+```
+
+# Ejercicios
+
+## Consulta 0 (ejemplo)
+
+Tabla que, para todos los pacientes con creatinina sérica mayor a 6.0, muestre las columnas correspondientes a:
+
+- Creatinina sérica
+- Edad
+- Sexo
+
+```{r}
+#| label: tabla-0.0
+
+pacientes |>
+  filter(serum_creatinine > 6.0) |>
+  select(serum_creatinine, age, sex) |>
+  kable()
+```
+
+---
+
+## Ejercicio 1.1
+
+Tabla que para las mujeres mayores de 75 años muestre, en orden descendente de edad, las columnas correspondientes a:
+
+- Sexo
+- Edad
+- Diabetes
+- Presión arterial alta
+- Creatinina sérica
+
+```{r}
+#| label: tabla-1.1
+
+pacientes |>
+  filter(age > 75, sex == 0) |>
+  select(sex, age, diabetes, high_blood_pressure, serum_creatinine) |>
+  arrange(desc(age)) |>
+  kable()
+```
+
+---
+
+## Ejercicio 1.2
+
+Tabla que para los hombres diabéticos y no anémicos mayores de 70 años muestre, en orden descendente de edad, las columnas correspondientes a:
+
+- Sexo
+- Edad
+- Diabetes
+- Anemia
+- Presión arterial alta
+
+```{r}
+#| label: tabla-1.2
+
+pacientes |>
+  filter(sex == 1, diabetes == 1, anaemia == 0, age > 70) |>
+  select(sex, age, diabetes, anaemia, high_blood_pressure) |>
+  arrange(desc(age)) |>
+  kable()
+```
+
+---
+
+## Ejercicio 2.1
+
+Tabla que para todos los hombres diabéticos o fumadores muestre, en orden ascendente de edad, las columnas correspondientes a:
+
+- Sexo
+- Edad
+- Diabetes
+- Fumador
+- Fracción de eyección
+
+```{r}
+#| label: tabla-2.1
+
+pacientes |>
+  filter(sex == 1, diabetes == 1 | high_blood_pressure == 1) |>
+  select(sex, age, diabetes, smoking, ejection_fraction) |>
+  arrange(age) |>
+  kable()
+```
+
+---
+
+## Ejercicio 2.2
+
+Tabla que muestre para todas las mujeres con fracción de eyección entre 20 (inclusive) y 25 (inclusive), en orden descendente de fracción de eyección, las columnas correspondientes a:
+
+- Sexo
+- Fracción de eyección
+- Anemia
+- Diabetes
+
+```{r}
+#| label: tabla-2.2
+
+pacientes |>
+  filter(sex == 0, ejection_fraction >= 20, ejection_fraction <= 25) |>
+  select(sex, ejection_fraction, anaemia, diabetes) |>
+  arrange(desc(ejection_fraction)) |>
+  kable()
+```
+
+---
+
+## Ejercicio 3.1
+
+Tabla que muestre el promedio de fracción de eyección de los pacientes diabéticos y de los pacientes no diabéticos.
+
+```{r}
+#| label: tabla-3.1
+
+pacientes |>
+  filter(sex == 1) |>
+  group_by(diabetes) |>
+  summarize(promedio_fraccion_eyeccion = mean(ejection_fraction)) |>
+  kable()
+```
+
+---
+
+## Ejercicio 3.2
+
+Tabla que muestre el promedio de creatinina sérica de pacientes sobrevivientes y de pacientes fallecidos.
+
+```{r}
+#| label: tabla-3.2
+
+pacientes |>
+  group_by(DEATH_EVENT) |>
+  summarize(promedio_creatinina_serica = mean(serum_creatinine)) |>
+  kable()
+```
+
+---
+
+## Ejercicio 4.1
+
+Tabla que muestre la menor edad de los hombres fallecidos.
+
+```{r}
+#| label: tabla-4.1
+
+pacientes |>
+  filter(sex == 1, DEATH_EVENT == 1) |>
+  summarize(edad_minima = min(age)) |>
+  kable()
+```
+
+---
+
+## Ejercicio 4.2
+
+Tabla que muestre el valor máximo de creatinina sérica de las mujeres que son anémicas o diabéticas.
+
+```{r}
+#| label: tabla-4.2
+
+pacientes |>
+  filter(sex == 0, anaemia == 1 | diabetes == 1) |>
+  summarize(creatinina_sérica_máxima = max(serum_creatinine)) |>
+  kable()
+```
+

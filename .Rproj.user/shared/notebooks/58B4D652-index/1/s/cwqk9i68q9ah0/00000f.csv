@@ -1,0 +1,12 @@
+"0","#| label: tabla-0.0"
+"0",""
+"0","pacientes |>"
+"0","  filter(serum_creatinine > 6.0) |>"
+"0","  select(serum_creatinine, age, sex) |>"
+"0","  kable()"
+"2","Registered S3 methods overwritten by 'htmltools':
+  method               from         
+  print.html           tools:rstudio
+  print.shiny.tag      tools:rstudio
+  print.shiny.tag.list tools:rstudio
+"

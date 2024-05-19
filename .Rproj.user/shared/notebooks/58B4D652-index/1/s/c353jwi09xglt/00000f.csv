@@ -1,0 +1,7 @@
+"0","#| label: tabla-2.2"
+"0",""
+"0","pacientes |>"
+"0","  filter(sex == 0, ejection_fraction >= 20, ejection_fraction <= 25) |>"
+"0","  select(sex, ejection_fraction, anaemia, diabetes) |>"
+"0","  arrange(desc(ejection_fraction)) |>"
+"0","  kable()"

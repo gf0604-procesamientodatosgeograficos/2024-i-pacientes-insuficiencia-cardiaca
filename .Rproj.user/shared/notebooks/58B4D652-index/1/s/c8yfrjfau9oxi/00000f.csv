@@ -1,0 +1,7 @@
+"0","#| label: tabla-2.1"
+"0",""
+"0","pacientes |>"
+"0","  filter(sex == 1, diabetes == 1 | high_blood_pressure == 1) |>"
+"0","  select(sex, age, diabetes, smoking, ejection_fraction) |>"
+"0","  arrange(age) |>"
+"0","  kable()"

@@ -1,0 +1,7 @@
+"0","#| label: tabla-1.1"
+"0",""
+"0","pacientes |>"
+"0","  filter(age > 75, sex == 0) |>"
+"0","  select(sex, age, diabetes, high_blood_pressure, serum_creatinine) |>"
+"0","  arrange(desc(age)) |>"
+"0","  kable()"
